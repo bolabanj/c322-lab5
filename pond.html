@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <a href="add.html">Add Ducks</a>
+    <a href="search.html">Search Ducks</a>
+    <a href="pond.html">Pond</a>
+
+    
+
+
+    <script>
+        
+    //     let host = "http://localhost:8080";
+    //     let ducks = [];
+    //     let request = {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //     };
+    //     async function findDucks(){
+    //     let response = await fetch(host + "/ducks", request);
+    //     if(response.status == 200){
+    //          ducks = await response.json();
+    //     }
+    //     else{
+    //         console.log(response);
+    //         alert("Problem with the server. Please try again later.")
+    //     }
+    //     return ducks;
+    // }
+    let ducks = [];
+    let host = "http://localhost:8080";
+      async function getAll(){
+        
+        let request = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        let response = await fetch(host + "/ducks", request);
+        if (response.status === 200) {
+          ducks = await response.json();
+        } else {
+          console.log(response);}
+
+          return ducks;
+        }
+
+
+    async function displayDucks(){
+        ducks = await getAll();
+        console.log(ducks);
+
+        for (let duck of ducks){
+            let card = document.createElement("div");
+            card.className = "card";
+            let img = document.createElement("img");
+            img.src = host + "/ducks/" + duck.id + "/image";
+            img.alt = duck.type;
+            card.appendChild(img);
+            let cardBody = document.createElement("div");
+            cardBody.className = "container";
+            let h4 = document.createElement("h4");
+            h4.innerHTML = duck.id;
+            cardBody.appendChild(h4);
+            let p = document.createElement("p");
+            p.innerHTML = duck.type;
+            cardBody.appendChild(p);
+            card.appendChild(cardBody);
+            document.body.appendChild(card);
+        }}
+
+        displayDucks();
+        
+    </script>
+
+</body>
+</html>
